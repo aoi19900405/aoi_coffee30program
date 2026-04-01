@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30日チェックリスト | 心を整えるコーヒープログラム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f3ee;
+    --cream-deep: #ede7dc;
+    --brown-light: #c4a882;
+    --brown: #8b6748;
+    --brown-dark: #4a3728;
+    --text: #2c2118;
+    --text-soft: #6b5744;
+    --text-muted: #9c8070;
+    --white: #fdfaf7;
+    --week1: #d4b896;
+    --week2: #b89b7a;
+    --week3: #9c7f5e;
+    --week4: #7a6048;
+    --green: #7a9e7e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--brown-dark);
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+
+  .header-tag {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--brown-light);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .header-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+
+  .header-sub {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    color: var(--brown-light);
+    letter-spacing: 0.15em;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar-wrap {
+    background: var(--brown);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .progress-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    color: var(--cream);
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--brown-light);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .progress-count {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+
+  /* ── WEEK SECTIONS ── */
+  .week-section {
+    margin: 0;
+  }
+
+  .week-header {
+    padding: 32px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--cream-deep);
+    background: var(--white);
+  }
+
+  .week-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+
+  .week-badge.w1 { background: var(--week1); }
+  .week-badge.w2 { background: var(--week2); }
+  .week-badge.w3 { background: var(--week3); }
+  .week-badge.w4 { background: var(--week4); }
+
+  .week-info {}
+  .week-num {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .week-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--brown-dark);
+  }
+
+  .week-reflection {
+    background: var(--cream-deep);
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(196,168,130,0.2);
+  }
+
+  .reflection-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .reflection-input {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--cream-deep);
+    padding: 12px 16px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.8;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .reflection-input:focus {
+    border-color: var(--brown-light);
+  }
+
+  /* ── DAY CARDS ── */
+  .day-card {
+    background: var(--white);
+    border-bottom: 1px solid var(--cream-deep);
+    overflow: hidden;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    cursor: pointer;
+    gap: 16px;
+    transition: background 0.2s ease;
+    user-select: none;
+  }
+
+  .day-header:hover { background: var(--cream); }
+
+  .day-check {
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid var(--brown-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .day-check.checked {
+    background: var(--brown-light);
+    border-color: var(--brown-light);
+  }
+
+  .day-check.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .day-num {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    width: 36px;
+  }
+
+  .day-summary {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .day-summary-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .day-summary-text.has-data {
+    color: var(--text-soft);
+    font-style: normal;
+  }
+
+  .day-mood-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--cream-deep);
+  }
+
+  .day-toggle {
+    font-size: 10px;
+    color: var(--brown-light);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .day-toggle.open { transform: rotate(180deg); }
+
+  /* ── DAY BODY ── */
+  .day-body {
+    display: none;
+    padding: 20px 24px 28px;
+    background: var(--cream);
+    border-top: 1px solid var(--cream-deep);
+  }
+
+  .day-body.open { display: block; }
+
+  .field-group {
+    margin-bottom: 20px;
+  }
+
+  .field-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* MOOD SLIDER */
+  .mood-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mood-emoji {
+    font-size: 18px;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .mood-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--cream-deep);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .mood-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--brown-light);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .mood-slider::-webkit-slider-thumb:hover {
+    background: var(--brown);
+  }
+
+  .mood-value {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    color: var(--brown-dark);
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* TEXT INPUTS */
+  .field-input {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--cream-deep);
+    padding: 10px 14px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    line-height: 1.8;
+    transition: border-color 0.2s ease;
+  }
+
+  .field-input:focus { border-color: var(--brown-light); }
+
+  textarea.field-input {
+    resize: vertical;
+    min-height: 72px;
+  }
+
+  /* COFFEE TYPE CHIPS */
+  .coffee-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 6px 14px;
+    border: 1px solid var(--cream-deep);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    cursor: pointer;
+    background: var(--white);
+    transition: all 0.2s ease;
+    border-radius: 20px;
+  }
+
+  .chip.selected {
+    background: var(--brown-light);
+    border-color: var(--brown-light);
+    color: var(--white);
+  }
+
+  /* ── SAVE BTN ── */
+  .save-btn {
+    display: block;
+    width: 100%;
+    background: var(--brown-dark);
+    color: var(--cream);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s ease;
+  }
+
+  .save-btn:hover { background: var(--brown); }
+
+  .save-confirm {
+    text-align: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    margin-top: 8px;
+    height: 16px;
+    transition: opacity 0.3s ease;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    background: var(--brown-dark);
+    color: rgba(247,243,238,0.3);
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--brown-dark);
+    color: var(--cream);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    padding: 12px 28px;
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 200;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Aoi Coffee Program — 付録①</span>
+  <h1 class="header-title">心を整える<br>30日チェックリスト</h1>
+  <p class="header-sub">毎朝1杯のコーヒーとともに、記録していきましょう</p>
+</div>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">進捗</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <span class="progress-count" id="progressCount">0 / 30日</span>
+</div>
+
+<div id="weeks"></div>
+
+<footer>© あおい｜心を整える30日間コーヒープログラム</footer>
+
+<div class="toast" id="toast">保存しました ☕</div>
+
+<script>
+const WEEKS = [
+  { num: 1, theme: '気づく', cls: 'w1', days: [1,2,3,4,5,6,7],
+    reflection: 'Week 1を終えて。「なんとなく」から「意図して」に、何か変わりましたか？' },
+  { num: 2, theme: '整える', cls: 'w2', days: [8,9,10,11,12,13,14],
+    reflection: 'Week 2を振り返って。朝の1杯が、一日のリズムになってきた感覚はありますか？' },
+  { num: 3, theme: '手放す', cls: 'w3', days: [15,16,17,18,19,20,21],
+    reflection: 'Week 3を終えて。手放せた「頑張り」は何かありましたか？' },
+  { num: 4, theme: '続ける', cls: 'w4', days: [22,23,24,25,26,27,28,29,30],
+    reflection: 'Week 4、そして30日を終えて。コーヒーの味は、少し変わって感じますか？' },
+];
+
+const COFFEE_TYPES = ['ドリップ','インスタント','コンビニ','カフェ','エスプレッソ','ハンドドリップ','水出し','その他'];
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem('aoi_checklist') || '{}'); } catch { return {}; }
+}
+
+function saveData(data) {
+  localStorage.setItem('aoi_checklist', JSON.stringify(data));
+}
+
+let data = loadData();
+
+function getMoodEmoji(val) {
+  const v = parseInt(val);
+  if (v <= 2) return '😔';
+  if (v <= 4) return '😐';
+  if (v <= 6) return '🙂';
+  if (v <= 8) return '😊';
+  return '✨';
+}
+
+function getMoodDotColor(val) {
+  const v = parseInt(val);
+  if (v <= 3) return '#c4a882';
+  if (v <= 6) return '#8b6748';
+  return '#7a9e7e';
+}
+
+function updateProgress() {
+  const checked = Object.values(data).filter(d => d.checked).length;
+  const pct = (checked / 30) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = checked + ' / 30日';
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function renderDaySummary(dayNum) {
+  const d = data[dayNum];
+  if (!d || (!d.checked && !d.coffee && !d.mood && !d.memo)) {
+    return { text: 'タップして記録する', hasData: false, moodVal: null };
+  }
+  let parts = [];
+  if (d.coffee) parts.push(d.coffee);
+  if (d.mood) parts.push(`気分 ${d.mood}`);
+  if (d.memo) parts.push(d.memo.slice(0, 12) + (d.memo.length > 12 ? '…' : ''));
+  return { text: parts.join(' · ') || 'タップして記録する', hasData: parts.length > 0, moodVal: d.mood };
+}
+
+function buildDay(dayNum) {
+  const d = data[dayNum] || {};
+  const summary = renderDaySummary(dayNum);
+  const moodVal = d.mood || 5;
+  const dotColor = d.mood ? getMoodDotColor(d.mood) : 'var(--cream-deep)';
+
+  const card = document.createElement('div');
+  card.className = 'day-card';
+  card.id = `day-${dayNum}`;
+
+  const selectedCoffees = d.coffeeTypes || [];
+
+  card.innerHTML = `
+    <div class="day-header" onclick="toggleDay(${dayNum})">
+      <div class="day-check ${d.checked ? 'checked' : ''}" id="check-${dayNum}" onclick="toggleCheck(event, ${dayNum})"></div>
+      <span class="day-num">Day ${dayNum}</span>
+      <div class="day-summary">
+        <span class="day-summary-text ${summary.hasData ? 'has-data' : ''}" id="summary-${dayNum}">${summary.text}</span>
+      </div>
+      <div class="day-mood-dot" id="dot-${dayNum}" style="background:${dotColor}"></div>
+      <span class="day-toggle" id="toggle-${dayNum}">▼</span>
+    </div>
+    <div class="day-body" id="body-${dayNum}">
+
+      <div class="field-group">
+        <span class="field-label">今朝の気分・状態（1〜10）</span>
+        <div class="mood-row">
+          <span class="mood-emoji" id="emoji-${dayNum}">${getMoodEmoji(moodVal)}</span>
+          <input type="range" class="mood-slider" min="1" max="10" value="${moodVal}"
+            id="mood-${dayNum}"
+            oninput="updateMood(${dayNum}, this.value)">
+          <span class="mood-value" id="moodval-${dayNum}">${moodVal}</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">今日のコーヒー</span>
+        <div class="coffee-chips" id="chips-${dayNum}">
+          ${COFFEE_TYPES.map(t => `
+            <span class="chip ${selectedCoffees.includes(t) ? 'selected' : ''}"
+              onclick="toggleChip(${dayNum}, '${t}', this)">${t}</span>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">コーヒーの感想・香り・味</span>
+        <input type="text" class="field-input" id="coffee-${dayNum}"
+          placeholder="今日の1杯はどうでしたか？"
+          value="${d.coffee || ''}">
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">今日の気づき・ひとこと</span>
+        <textarea class="field-input" id="memo-${dayNum}"
+          placeholder="どんな小さなことでも。">${d.memo || ''}</textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveDay(${dayNum})">この日を保存する</button>
+      <div class="save-confirm" id="confirm-${dayNum}"></div>
+    </div>
+  `;
+  return card;
+}
+
+function toggleDay(dayNum) {
+  const body = document.getElementById(`body-${dayNum}`);
+  const toggle = document.getElementById(`toggle-${dayNum}`);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+function toggleCheck(e, dayNum) {
+  e.stopPropagation();
+  if (!data[dayNum]) data[dayNum] = {};
+  data[dayNum].checked = !data[dayNum].checked;
+  saveData(data);
+  const el = document.getElementById(`check-${dayNum}`);
+  el.classList.toggle('checked', data[dayNum].checked);
+  updateProgress();
+}
+
+function updateMood(dayNum, val) {
+  document.getElementById(`emoji-${dayNum}`).textContent = getMoodEmoji(val);
+  document.getElementById(`moodval-${dayNum}`).textContent = val;
+}
+
+function toggleChip(dayNum, type, el) {
+  if (!data[dayNum]) data[dayNum] = {};
+  if (!data[dayNum].coffeeTypes) data[dayNum].coffeeTypes = [];
+  const idx = data[dayNum].coffeeTypes.indexOf(type);
+  if (idx === -1) { data[dayNum].coffeeTypes.push(type); el.classList.add('selected'); }
+  else { data[dayNum].coffeeTypes.splice(idx, 1); el.classList.remove('selected'); }
+}
+
+function saveDay(dayNum) {
+  if (!data[dayNum]) data[dayNum] = {};
+  data[dayNum].mood = document.getElementById(`mood-${dayNum}`).value;
+  data[dayNum].coffee = document.getElementById(`coffee-${dayNum}`).value;
+  data[dayNum].memo = document.getElementById(`memo-${dayNum}`).value;
+  saveData(data);
+
+  // Update summary
+  const summary = renderDaySummary(dayNum);
+  const summaryEl = document.getElementById(`summary-${dayNum}`);
+  summaryEl.textContent = summary.text;
+  summaryEl.className = `day-summary-text ${summary.hasData ? 'has-data' : ''}`;
+
+  // Update dot
+  const dot = document.getElementById(`dot-${dayNum}`);
+  dot.style.background = data[dayNum].mood ? getMoodDotColor(data[dayNum].mood) : 'var(--cream-deep)';
+
+  // Confirm
+  const confirm = document.getElementById(`confirm-${dayNum}`);
+  confirm.textContent = '✦ 保存しました';
+  setTimeout(() => confirm.textContent = '', 2000);
+
+  showToast();
+  updateProgress();
+}
+
+function saveReflection(weekNum) {
+  const val = document.getElementById(`reflection-${weekNum}`).value;
+  if (!data[`week${weekNum}`]) data[`week${weekNum}`] = {};
+  data[`week${weekNum}`].reflection = val;
+  saveData(data);
+  showToast();
+}
+
+function render() {
+  const container = document.getElementById('weeks');
+  WEEKS.forEach(week => {
+    const section = document.createElement('div');
+    section.className = 'week-section';
+
+    const weekData = data[`week${week.num}`] || {};
+
+    section.innerHTML = `
+      <div class="week-header">
+        <div class="week-badge ${week.cls}">WEEK<br>${week.num}</div>
+        <div class="week-info">
+          <span class="week-num">Week ${week.num} / Day ${week.days[0]}〜${week.days[week.days.length-1]}</span>
+          <div class="week-title">「${week.theme}」</div>
+        </div>
+      </div>
+    `;
+
+    week.days.forEach(dayNum => {
+      section.appendChild(buildDay(dayNum));
+    });
+
+    // Week reflection
+    const reflection = document.createElement('div');
+    reflection.className = 'week-reflection';
+    reflection.innerHTML = `
+      <span class="reflection-label">週の振り返り</span>
+      <textarea class="reflection-input" id="reflection-${week.num}"
+        placeholder="${week.reflection}"
+        onblur="saveReflection(${week.num})">${weekData.reflection || ''}</textarea>
+    `;
+    section.appendChild(reflection);
+
+    container.appendChild(section);
+  });
+
+  updateProgress();
+}
+
+render();
+</script>
+</body>
+</html>
