@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNS疲れ診断 | あおい</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f3ee;
+    --cream-deep: #ede7dc;
+    --brown-light: #c4a882;
+    --brown: #8b6748;
+    --brown-dark: #4a3728;
+    --text: #2c2118;
+    --text-soft: #6b5744;
+    --text-muted: #9c8070;
+    --white: #fdfaf7;
+    --green: #5a8a60;
+    --yellow: #b8963e;
+    --orange: #b86030;
+    --red: #8a3a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── PAGE SYSTEM ── */
+  .page { display: none; animation: fadeIn 0.6s ease; }
+  .page.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── COMMON ── */
+  .aoi-tag {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--brown-light);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .section-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── TOP PAGE ── */
+  #page-top {
+    min-height: 100vh;
+    background: var(--brown-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #page-top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 70%, rgba(196,168,130,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(139,103,72,0.1) 0%, transparent 50%);
+  }
+
+  .top-inner { position: relative; z-index: 1; max-width: 480px; }
+
+  .top-eyebrow {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--brown-light);
+    margin-bottom: 40px;
+    display: block;
+  }
+
+  .top-lead {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(14px, 3vw, 17px);
+    line-height: 2.8;
+    color: rgba(247,243,238,0.6);
+    margin-bottom: 48px;
+  }
+
+  .top-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .top-sub {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--brown-light);
+    margin-bottom: 56px;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-block;
+    background: var(--brown-light);
+    color: var(--white);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    padding: 18px 56px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--brown);
+    transform: translateY(-2px);
+  }
+
+  .btn-note {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    background: var(--brown-dark);
+    color: var(--cream);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    padding: 20px 32px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn-note:hover {
+    background: var(--brown);
+    transform: translateY(-2px);
+  }
+
+  .btn-note span {
+    display: block;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--brown-light);
+    margin-top: 6px;
+  }
+
+  .btn-restart {
+    background: none;
+    border: 1px solid var(--cream-deep);
+    color: var(--text-muted);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    padding: 10px 24px;
+    cursor: pointer;
+    margin-top: 24px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: border-color 0.2s ease;
+  }
+
+  .btn-restart:hover { border-color: var(--brown-light); color: var(--text-soft); }
+
+  /* ── QUIZ PAGE ── */
+  #page-quiz {
+    padding: 0 0 80px;
+  }
+
+  .quiz-header {
+    background: var(--brown-dark);
+    padding: 40px 24px 32px;
+    text-align: center;
+  }
+
+  .quiz-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto 20px;
+  }
+
+  .quiz-progress-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--brown-light);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .quiz-progress-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--brown-light);
+    white-space: nowrap;
+  }
+
+  .quiz-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    color: rgba(247,243,238,0.5);
+    letter-spacing: 0.15em;
+  }
+
+  .question-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 64px 24px 0;
+  }
+
+  .question-num {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .question-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(17px, 3.5vw, 22px);
+    font-weight: 500;
+    color: var(--brown-dark);
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+
+  .answer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .answer-btn {
+    padding: 20px 16px;
+    border: 1.5px solid var(--cream-deep);
+    background: var(--white);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.05em;
+  }
+
+  .answer-btn:hover {
+    border-color: var(--brown-light);
+    background: var(--cream-deep);
+    color: var(--brown-dark);
+  }
+
+  .answer-btn.yes {
+    background: var(--brown-light);
+    border-color: var(--brown-light);
+    color: var(--white);
+  }
+
+  .answer-btn.no {
+    background: var(--cream-deep);
+    border-color: var(--cream-deep);
+    color: var(--text-muted);
+  }
+
+  /* ── RESULT PAGE ── */
+  #page-result { padding-bottom: 80px; }
+
+  .result-hero {
+    padding: 72px 24px 60px;
+    text-align: center;
+  }
+
+  .result-level {
+    display: inline-block;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    padding: 6px 20px;
+    margin-bottom: 32px;
+  }
+
+  .result-score {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-score-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    display: block;
+  }
+
+  .result-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 500;
+    line-height: 1.8;
+    margin-bottom: 32px;
+    color: var(--brown-dark);
+  }
+
+  .result-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    line-height: 2.4;
+    color: var(--text-soft);
+    text-align: left;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--white);
+    padding: 72px 24px;
+  }
+
+  .cta-inner { max-width: 480px; margin: 0 auto; }
+
+  .cta-divider {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--brown-light), transparent);
+    margin: 0 auto 48px;
+  }
+
+  .cta-headline {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--brown-dark);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .cta-prose {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    line-height: 2.4;
+    color: var(--text-soft);
+    margin-bottom: 40px;
+  }
+
+  .cta-prose p { margin-bottom: 1.4em; }
+
+  .coffee-feature {
+    background: var(--cream);
+    border-left: 3px solid var(--brown-light);
+    padding: 24px 28px;
+    margin-bottom: 40px;
+  }
+
+  .coffee-feature-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--brown-light);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .coffee-feature ul {
+    list-style: none;
+  }
+
+  .coffee-feature ul li {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .coffee-feature ul li::before {
+    content: '✦';
+    color: var(--brown-light);
+    font-size: 9px;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  /* ── BONUS SECTION ── */
+  .bonus-section {
+    padding: 72px 24px;
+    background: var(--cream-deep);
+  }
+
+  .bonus-inner { max-width: 480px; margin: 0 auto; }
+
+  .bonus-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--brown-dark);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .bonus-card {
+    background: var(--white);
+    padding: 24px 28px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .bonus-num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 28px;
+    color: var(--brown-light);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 32px;
+  }
+
+  .bonus-card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--brown-dark);
+    margin-bottom: 6px;
+  }
+
+  .bonus-card-desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* ── CLOSING SECTION ── */
+  .closing-section {
+    background: var(--brown-dark);
+    padding: 80px 24px;
+    text-align: center;
+  }
+
+  .closing-inner { max-width: 440px; margin: 0 auto; }
+
+  .closing-prose {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(14px, 3vw, 17px);
+    line-height: 3;
+    color: rgba(247,243,238,0.65);
+    margin-bottom: 56px;
+  }
+
+  .closing-prose .em {
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  /* ── COLORS PER LEVEL ── */
+  .level-green .result-hero { background: linear-gradient(135deg, #e8f0e8 0%, var(--cream) 100%); }
+  .level-green .result-level { background: rgba(90,138,96,0.12); color: var(--green); border: 1px solid rgba(90,138,96,0.2); }
+  .level-green .result-score { color: var(--green); }
+
+  .level-yellow .result-hero { background: linear-gradient(135deg, #f0ebe0 0%, var(--cream) 100%); }
+  .level-yellow .result-level { background: rgba(184,150,62,0.12); color: var(--yellow); border: 1px solid rgba(184,150,62,0.2); }
+  .level-yellow .result-score { color: var(--yellow); }
+
+  .level-orange .result-hero { background: linear-gradient(135deg, #f0e4dc 0%, var(--cream) 100%); }
+  .level-orange .result-level { background: rgba(184,96,48,0.1); color: var(--orange); border: 1px solid rgba(184,96,48,0.2); }
+  .level-orange .result-score { color: var(--orange); }
+
+  .level-red .result-hero { background: linear-gradient(135deg, #eddede 0%, var(--cream) 100%); }
+  .level-red .result-level { background: rgba(138,58,46,0.1); color: var(--red); border: 1px solid rgba(138,58,46,0.2); }
+  .level-red .result-score { color: var(--red); }
+
+  @media (max-width: 480px) {
+    .answer-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     ① トップページ
+══════════════════════════════════════ -->
+<div id="page-top" class="page active">
+  <div class="top-inner">
+    <span class="top-eyebrow">Aoi × Mental Care</span>
+
+    <div class="top-lead">
+      なんとなくSNSを見て、<br>
+      なんとなく疲れる。<br><br>
+      理由はわからないけど、<br>
+      気分が重くなる。<br><br>
+      それ、気のせいじゃありません。
+    </div>
+
+    <h1 class="top-title">SNSで疲れてる<br>あなたへ</h1>
+    <p class="top-sub">3分でわかる「SNS疲れレベル診断」</p>
+
+    <button class="btn-primary" onclick="startQuiz()">診断をはじめる</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     ② 診断ページ
+══════════════════════════════════════ -->
+<div id="page-quiz" class="page">
+  <div class="quiz-header">
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-track">
+        <div class="quiz-progress-fill" id="quizProgressFill"></div>
+      </div>
+      <span class="quiz-progress-label" id="quizProgressLabel">1 / 10</span>
+    </div>
+    <p class="quiz-title">当てはまるものに「YES」で答えてください</p>
+  </div>
+
+  <div class="question-wrap">
+    <span class="question-num" id="questionNum">QUESTION 01</span>
+    <p class="question-text" id="questionText"></p>
+    <div class="answer-row">
+      <button class="answer-btn" id="btnYes" onclick="answer(1)">YES<br><small style="font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:0.15em;opacity:0.7;">当てはまる</small></button>
+      <button class="answer-btn" id="btnNo" onclick="answer(0)">NO<br><small style="font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:0.15em;opacity:0.7;">当てはまらない</small></button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     ③ 結果ページ
+══════════════════════════════════════ -->
+<div id="page-result" class="page">
+
+  <!-- 結果ヒーロー -->
+  <div class="result-hero" id="resultHero">
+    <span class="result-level" id="resultLevel"></span>
+    <div class="result-score" id="resultScore"></div>
+    <span class="result-score-label">/ 10点</span>
+    <h2 class="result-title" id="resultTitle"></h2>
+    <div class="result-body" id="resultBody"></div>
+  </div>
+
+  <!-- 共通CTA -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <div class="cta-divider"></div>
+
+      <h2 class="cta-headline">
+        SNSをやめなくても、<br>整えられます
+      </h2>
+
+      <div class="cta-prose">
+        <p>多くの人は「SNSをやめる」ことで解決しようとします。</p>
+        <p>でも、それは続きません。</p>
+        <p>本当に必要なのは、<br>
+        <strong style="color:var(--brown-dark);font-weight:500;">「自分の状態を整えること」</strong></p>
+      </div>
+
+      <div class="coffee-feature">
+        <span class="coffee-feature-label">☕ コーヒーで整えるという選択</span>
+        <ul>
+          <li>SNS疲れの正体</li>
+          <li>比較しなくなる思考</li>
+          <li>毎朝3分で整う習慣</li>
+        </ul>
+      </div>
+
+      <div class="cta-prose">
+        <p style="text-align:center;">特別なことは必要ありません。<br>
+        必要なのは——<br>
+        <strong style="color:var(--brown-dark);font-weight:500;">いつものコーヒーと、3分だけ</strong></p>
+      </div>
+
+      <a href="https://note.com/haruma_aoi1226tk/n/n1c524f9ccf16" target="_blank" class="btn-note">
+        今すぐチェックする
+        <span>心を整える30日間コーヒープログラム →</span>
+      </a>
+    </div>
+  </div>
+
+
+
+  <!-- クロージング -->
+  <div class="closing-section">
+    <div class="closing-inner">
+      <div class="closing-prose">
+        もし今、ページを閉じたら<br><br>
+        またいつものSNSに戻ります<br><br>
+        そしてまた——<br>
+        <span class="em">なんとなく疲れる</span><br>
+        <span class="em">なんとなく落ち込む</span><br><br>
+        この繰り返しです<br><br>
+        でも——<br><br>
+        今ここで変えれば<br>
+        <span class="em">明日の朝が変わります</span><br><br>
+        コーヒーの味が変わります<br><br>
+        そして気づきます<br>
+        <span class="em">「変わったのは自分だった」</span>と
+      </div>
+
+      <a href="https://note.com/haruma_aoi1226tk/n/n1c524f9ccf16" target="_blank" class="btn-note" style="background:var(--brown-light);">
+        今すぐ始める
+        <span>心を整える30日間コーヒープログラム →</span>
+      </a>
+
+      <button class="btn-restart" onclick="restartQuiz()">もう一度診断する</button>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+const QUESTIONS = [
+  'SNSを見たあと、気分が落ちることがある',
+  '無意識にアプリを開いている',
+  '他人と自分を比べてしまう',
+  '寝る前にSNSを見てしまう',
+  '投稿しようとしてやめることがある',
+  'いいねの数が気になる',
+  'SNSを見て焦ることがある',
+  '気づいたら長時間見ている',
+  '理由はわからないけど疲れる',
+  'SNSをやめたいと思ったことがある',
+];
+
+const RESULTS = {
+  green: {
+    range: [0, 2],
+    label: '🟢 正常ゾーン',
+    levelClass: 'level-green',
+    title: 'SNSとちょうどいい\n距離感を保てています',
+    body: `今の使い方を続ければOKです。\n\nただし——\n油断すると、少しずつ消耗する可能性もあります。\n\n「疲れない使い方」を知っておくだけで、\nこれからも心地よくいられます。`,
+  },
+  yellow: {
+    range: [3, 5],
+    label: '🟡 軽度疲労ゾーン',
+    levelClass: 'level-yellow',
+    title: '少しずつ、SNSの\n影響を受け始めています',
+    body: `まだ大きな問題ではないですが、\nこのままだと徐々に疲れやすくなります。\n\n今のうちに整えることが重要です。\n\n早めに気づけたことは、大きなアドバンテージです。`,
+  },
+  orange: {
+    range: [6, 8],
+    label: '🟠 中度疲労ゾーン',
+    levelClass: 'level-orange',
+    title: 'すでに"無意識に"\n消耗しています',
+    body: `・やる気が出ない\n・集中できない\n・人と比べてしまう\n\nこの状態、放置すると悪化します。\n\nでも安心してください。\n正しい方法で整えれば、ちゃんと戻せます。`,
+  },
+  red: {
+    range: [9, 10],
+    label: '🔴 重度疲労ゾーン',
+    levelClass: 'level-red',
+    title: '心が限界に\n近づいています',
+    body: `このままだと——\n\n・慢性的な疲れ\n・自己否定\n・無気力状態\n\nに繋がる可能性があります。\n\nでも、大丈夫です。\n今気づけたことが、最初の一歩です。\nここから回復できます。`,
+  },
+};
+
+let currentQ = 0;
+let score = 0;
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  renderQuestion();
+  showPage('page-quiz');
+}
+
+function renderQuestion() {
+  const pct = (currentQ / QUESTIONS.length) * 100;
+  document.getElementById('quizProgressFill').style.width = pct + '%';
+  document.getElementById('quizProgressLabel').textContent = `${currentQ + 1} / ${QUESTIONS.length}`;
+  document.getElementById('questionNum').textContent = `QUESTION ${String(currentQ + 1).padStart(2, '0')}`;
+  document.getElementById('questionText').textContent = QUESTIONS[currentQ];
+  document.getElementById('btnYes').className = 'answer-btn';
+  document.getElementById('btnNo').className = 'answer-btn';
+}
+
+function answer(val) {
+  const yesBtn = document.getElementById('btnYes');
+  const noBtn = document.getElementById('btnNo');
+
+  if (val === 1) { yesBtn.classList.add('yes'); noBtn.classList.add('no'); }
+  else { noBtn.classList.add('no'); yesBtn.classList.add('no'); }
+
+  score += val;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < QUESTIONS.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 400);
+}
+
+function getLevel(score) {
+  if (score <= 2) return RESULTS.green;
+  if (score <= 5) return RESULTS.yellow;
+  if (score <= 8) return RESULTS.orange;
+  return RESULTS.red;
+}
+
+function showResult() {
+  const level = getLevel(score);
+  const resultPage = document.getElementById('page-result');
+
+  // Remove previous level classes
+  resultPage.className = 'page active ' + level.levelClass;
+
+  document.getElementById('resultLevel').textContent = level.label;
+  document.getElementById('resultScore').textContent = score;
+  document.getElementById('resultTitle').textContent = level.title;
+  document.getElementById('resultBody').innerHTML = level.body
+    .split('\n')
+    .map(line => line ? `<p style="margin-bottom:0.8em;">${line}</p>` : '<br>')
+    .join('');
+
+  showPage('page-result');
+}
+
+function restartQuiz() {
+  startQuiz();
+}
+</script>
+</body>
+</html>
