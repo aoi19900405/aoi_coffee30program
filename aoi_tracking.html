@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>心を整える30日間コーヒープログラム | あおい</title>
+<title>集中・気分トラッキング | あおい</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #f7f3ee;
@@ -17,515 +17,416 @@
     --text-soft: #6b5744;
     --text-muted: #9c8070;
     --white: #fdfaf7;
-    --accent: #a0714f;
+    --focus-color: #7a9e8a;
+    --mood-color: #c4a882;
+    --coffee-color: #8b6748;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    background-color: var(--cream);
+    background: var(--cream);
     color: var(--text);
     font-family: 'Noto Serif JP', serif;
     font-weight: 300;
-    line-height: 2;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.4;
-  }
-
-  /* ── FADE IN ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  .fade-up { animation: fadeUp 1s ease forwards; opacity: 0; }
-  .delay-1 { animation-delay: 0.2s; }
-  .delay-2 { animation-delay: 0.5s; }
-  .delay-3 { animation-delay: 0.8s; }
-  .delay-4 { animation-delay: 1.1s; }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.9s ease, transform 0.9s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── HERO ── */
-  .hero {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--brown-dark);
+    padding: 48px 24px 40px;
     text-align: center;
-    padding: 80px 24px;
-    position: relative;
-    background: radial-gradient(ellipse at 60% 40%, #e8d9c6 0%, var(--cream) 70%);
   }
 
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: linear-gradient(to bottom, transparent, var(--cream));
-  }
-
-  .hero-tag {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    color: var(--brown-light);
-    text-transform: uppercase;
-    margin-bottom: 48px;
-  }
-
-  .hero-poem {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(15px, 2.5vw, 19px);
-    line-height: 2.6;
-    color: var(--text-soft);
-    max-width: 480px;
-    margin: 0 auto 56px;
-  }
-
-  .hero-poem em {
-    font-style: normal;
-    color: var(--text-muted);
-    font-size: 0.9em;
-  }
-
-  .hero-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(20px, 4vw, 28px);
-    font-weight: 500;
-    color: var(--brown-dark);
-    line-height: 1.8;
-    margin-bottom: 16px;
-  }
-
-  .hero-sub {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-  }
-
-  /* ── DIVIDER ── */
-  .divider {
-    width: 1px;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--brown-light), transparent);
-    margin: 0 auto;
-  }
-
-  .divider-h {
-    border: none;
-    border-top: 1px solid var(--cream-deep);
-    margin: 0 auto;
-    width: 60px;
-  }
-
-  /* ── SECTIONS ── */
-  section {
-    padding: 100px 24px;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
-  section.wide {
-    max-width: 860px;
-  }
-
-  /* ── CHECKLIST ── */
-  .checklist-section {
-    background: var(--white);
-    max-width: 100%;
-    padding: 100px 24px;
-  }
-
-  .checklist-inner {
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
-  .section-label {
+  .header-tag {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 10px;
     letter-spacing: 0.35em;
     color: var(--brown-light);
-    text-transform: uppercase;
     display: block;
-    margin-bottom: 40px;
-  }
-
-  h2 {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(18px, 3vw, 24px);
-    font-weight: 500;
-    line-height: 1.9;
-    color: var(--brown-dark);
-    margin-bottom: 40px;
-  }
-
-  .checklist {
-    list-style: none;
-    margin-bottom: 48px;
-  }
-
-  .checklist li {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--cream-deep);
-    font-size: 14px;
-    color: var(--text-soft);
-    line-height: 1.8;
-  }
-
-  .checklist li::before {
-    content: '□';
-    color: var(--brown-light);
-    font-size: 16px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .checklist-note {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 15px;
-    line-height: 2.2;
-    color: var(--text-soft);
-  }
-
-  .checklist-note strong {
-    font-weight: 500;
-    color: var(--brown-dark);
-    display: block;
-    margin-top: 8px;
-  }
-
-  /* ── PROSE ── */
-  .prose {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(14px, 2vw, 16px);
-    line-height: 2.6;
-    color: var(--text-soft);
-  }
-
-  .prose p { margin-bottom: 1.8em; }
-
-  .prose .highlight {
-    color: var(--brown-dark);
-    font-weight: 500;
-  }
-
-  /* ── PROGRAM WEEKS ── */
-  .weeks {
-    display: grid;
-    gap: 2px;
-    margin-top: 48px;
-  }
-
-  .week-card {
-    background: var(--white);
-    padding: 36px 40px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s ease;
-  }
-
-  .week-card:hover { background: var(--cream-deep); }
-
-  .week-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--brown-light);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .week-card:hover::before { opacity: 1; }
-
-  .week-num {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--brown-light);
-    display: block;
-    margin-bottom: 12px;
-  }
-
-  .week-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--brown-dark);
-    margin-bottom: 12px;
-  }
-
-  .week-desc {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 13px;
-    line-height: 2;
-    color: var(--text-muted);
-  }
-
-  /* ── BONUS ── */
-  .bonus-list {
-    list-style: none;
-    margin-top: 32px;
-  }
-
-  .bonus-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    font-size: 14px;
-    color: var(--text-soft);
-    border-bottom: 1px solid var(--cream-deep);
-  }
-
-  .bonus-list li::before {
-    content: '✦';
-    color: var(--brown-light);
-    font-size: 10px;
-  }
-
-  /* ── AUTHOR ── */
-  .author-section {
-    background: linear-gradient(135deg, #ede0cf 0%, var(--cream) 100%);
-    max-width: 100%;
-    padding: 100px 24px;
-  }
-
-  .author-inner {
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
-  .author-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--brown-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 32px;
-    font-size: 22px;
-  }
-
-  /* ── REVIEWS ── */
-  .reviews {
-    display: grid;
-    gap: 24px;
-    margin-top: 48px;
-  }
-
-  .review-card {
-    background: var(--white);
-    padding: 32px 36px;
-    border-left: 3px solid var(--cream-deep);
-    transition: border-color 0.3s ease;
-  }
-
-  .review-card:hover { border-color: var(--brown-light); }
-
-  .review-text {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 14px;
-    line-height: 2.4;
-    color: var(--text-soft);
     margin-bottom: 16px;
   }
 
-  .review-author {
+  .header-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+
+  .header-sub {
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 11px;
+    color: var(--brown-light);
+    letter-spacing: 0.15em;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    background: var(--brown);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 14px 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(247,243,238,0.5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .tab.active {
+    color: var(--cream);
+    border-bottom-color: var(--brown-light);
+  }
+
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── TODAY RECORD ── */
+  .record-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .day-selector {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .day-selector-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+  }
+
+  .day-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+
+  .day-nav-btn {
+    background: none;
+    border: 1px solid var(--cream-deep);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .day-nav-btn:hover { border-color: var(--brown-light); color: var(--brown); }
+
+  .day-current {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    color: var(--brown-dark);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* ── SLIDERS ── */
+  .field-group { margin-bottom: 32px; }
+
+  .field-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slider-icon {
+    font-size: 18px;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .slider.focus-slider { background: linear-gradient(to right, var(--focus-color) 0%, var(--cream-deep) 50%); }
+  .slider.mood-slider { background: linear-gradient(to right, var(--mood-color) 0%, var(--cream-deep) 50%); }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .slider.focus-slider::-webkit-slider-thumb { background: var(--focus-color); }
+  .slider.mood-slider::-webkit-slider-thumb { background: var(--mood-color); }
+  .slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .slider-value {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px;
+    color: var(--brown-dark);
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* COFFEE RELATION */
+  .coffee-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .coffee-opt {
+    padding: 14px 12px;
+    border: 1.5px solid var(--cream-deep);
+    background: var(--white);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .coffee-opt:hover { border-color: var(--brown-light); }
+  .coffee-opt.selected {
+    background: var(--brown-light);
+    border-color: var(--brown-light);
+    color: var(--white);
+  }
+
+  /* TEXT INPUT */
+  .field-input {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--cream-deep);
+    padding: 12px 16px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    line-height: 1.8;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s ease;
+  }
+
+  .field-input:focus { border-color: var(--brown-light); }
+
+  /* SAVE BTN */
+  .save-btn {
+    display: block;
+    width: 100%;
+    background: var(--brown-dark);
+    color: var(--cream);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s ease;
+  }
+
+  .save-btn:hover { background: var(--brown); }
+
+  .save-msg {
+    text-align: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    color: var(--focus-color);
+    letter-spacing: 0.15em;
+    margin-top: 12px;
+    height: 16px;
+  }
+
+  /* ── GRAPH PANEL ── */
+  .graph-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .graph-section { margin-bottom: 48px; }
+
+  .graph-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .graph-container {
+    background: var(--white);
+    padding: 24px 16px 16px;
+    position: relative;
+  }
+
+  canvas { display: block; width: 100%; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* STATS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 32px;
+    color: var(--brown-dark);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
     letter-spacing: 0.15em;
     color: var(--text-muted);
   }
 
-  /* ── PRICE ── */
-  .price-section {
-    text-align: center;
-    background: var(--brown-dark);
-    max-width: 100%;
-    padding: 120px 24px;
-  }
+  /* HISTORY */
+  .history-section { margin-bottom: 48px; }
 
-  .price-inner {
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .price-section .section-label {
-    color: var(--brown-light);
-  }
-
-  .price-section h2 {
-    color: var(--cream);
-  }
-
-  .price-amount {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 56px;
-    font-weight: 400;
-    color: var(--cream);
-    letter-spacing: -0.02em;
-    margin: 32px 0 8px;
-  }
-
-  .price-unit {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    color: var(--brown-light);
-    margin-bottom: 40px;
-  }
-
-  .price-note {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 13px;
-    line-height: 2.2;
-    color: rgba(247,243,238,0.6);
-    margin-bottom: 48px;
-  }
-
-  .btn {
-    display: inline-block;
-    background: var(--brown-light);
-    color: var(--white);
-    font-family: 'Shippori Mincho', serif;
-    font-size: 16px;
-    letter-spacing: 0.1em;
-    padding: 20px 64px;
-    text-decoration: none;
-    transition: background 0.3s ease, transform 0.2s ease;
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn:hover {
-    background: var(--brown);
-    transform: translateY(-2px);
-  }
-
-  .btn-sub {
-    display: block;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--brown-light);
-    margin-top: 20px;
-  }
-
-  .btn-preview {
-    display: inline-block;
-    margin-top: 24px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: rgba(247,243,238,0.4);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    cursor: pointer;
-  }
-
-  /* ── FAQ ── */
-  .faq-item {
+  .history-item {
+    display: grid;
+    grid-template-columns: 48px 1fr 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--white);
     border-bottom: 1px solid var(--cream-deep);
-    padding: 32px 0;
+    font-size: 13px;
   }
 
-  .faq-q {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--brown-dark);
-    margin-bottom: 16px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
+  .history-item:first-child { border-top: 1px solid var(--cream-deep); }
 
-  .faq-q::before {
-    content: 'Q';
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--brown-light);
+  .history-day {
     font-family: 'Noto Sans JP', sans-serif;
-    margin-top: 4px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+  }
+
+  .history-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .history-bar {
+    height: 4px;
+    border-radius: 2px;
+    flex: 1;
+    background: var(--cream-deep);
+    overflow: hidden;
+  }
+
+  .history-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .history-bar-fill.focus { background: var(--focus-color); }
+  .history-bar-fill.mood { background: var(--mood-color); }
+
+  .history-num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    color: var(--text-soft);
+    width: 20px;
+    text-align: right;
     flex-shrink: 0;
   }
 
-  .faq-a {
-    font-size: 14px;
-    line-height: 2.2;
-    color: var(--text-soft);
-    padding-left: 24px;
-  }
-
-  /* ── CLOSING ── */
-  .closing-section {
-    text-align: center;
-    padding: 140px 24px;
-    background: radial-gradient(ellipse at 40% 60%, #e8d9c6 0%, var(--cream) 70%);
-    max-width: 100%;
-  }
-
-  .closing-inner {
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .closing-poem {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(15px, 2.5vw, 18px);
-    line-height: 3;
-    color: var(--text-soft);
-    margin-bottom: 64px;
-  }
-
-  .closing-poem .em-line {
-    color: var(--brown-dark);
-    font-weight: 500;
+  .history-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* ── FOOTER ── */
   footer {
     text-align: center;
-    padding: 40px 24px;
+    padding: 32px 24px;
     background: var(--brown-dark);
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 11px;
@@ -533,326 +434,553 @@
     color: rgba(247,243,238,0.3);
   }
 
-  /* ── FLOATING CTA ── */
-  .floating-cta {
+  /* ── TOAST ── */
+  .toast {
     position: fixed;
     bottom: 32px;
-    right: 32px;
-    z-index: 100;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--brown-dark);
+    color: var(--cream);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    padding: 12px 28px;
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: all 0.4s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 200;
   }
 
-  .floating-cta.show {
-    opacity: 1;
-    transform: translateY(0);
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .insight-msg {
+    display: none;
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--white);
+    border-left: 3px solid var(--brown-light);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    line-height: 2.2;
+    color: var(--text-soft);
+    animation: fadeIn 0.6s ease;
   }
 
-  .floating-btn {
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .insight-msg.show { display: block; }
+
+  /* ── GUIDE MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44,33,24,0.75);
+    z-index: 300;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeInOverlay 0.4s ease;
+  }
+
+  @keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: var(--white);
+    max-width: 400px;
+    width: 100%;
+    padding: 48px 36px 40px;
+    text-align: center;
+    animation: slideUp 0.5s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+
+  .modal-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--brown-dark);
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+
+  .modal-list {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 28px;
+  }
+
+  .modal-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-soft);
+  }
+
+  .modal-list li::before {
+    content: '✦';
+    color: var(--brown-light);
+    font-size: 9px;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .modal-note {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--brown-dark);
+    margin-bottom: 32px;
+    line-height: 1.9;
+  }
+
+  .modal-btn {
+    display: block;
+    width: 100%;
     background: var(--brown-dark);
     color: var(--cream);
     font-family: 'Shippori Mincho', serif;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    padding: 14px 24px;
-    cursor: pointer;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    padding: 16px;
     border: none;
-    text-decoration: none;
-    box-shadow: 0 8px 32px rgba(74,55,40,0.3);
-    transition: background 0.3s ease;
+    cursor: pointer;
+    transition: background 0.2s ease;
   }
 
-  .floating-btn:hover { background: var(--brown); }
-  .floating-btn::before { content: '☕'; font-size: 14px; }
+  .modal-btn:hover { background: var(--brown); }
 
-  @media (max-width: 600px) {
-    .floating-cta { bottom: 20px; right: 16px; left: 16px; }
-    .floating-btn { width: 100%; justify-content: center; }
-    .week-card { padding: 28px 24px; }
-    .review-card { padding: 24px 20px; }
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .history-item { grid-template-columns: 36px 1fr 1fr; }
+    .history-note { display: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
-<section class="hero" style="max-width:100%; padding:80px 24px;">
-  <span class="hero-tag fade-up delay-1">Aoi Coffee × Mental Care</span>
+<div class="header">
+  <span class="header-tag">Aoi Coffee Program — 付録②</span>
+  <h1 class="header-title">集中・気分<br>トラッキングシート</h1>
+  <p class="header-sub">30日間の変化を、静かに記録していく</p>
+</div>
 
-  <div class="hero-poem fade-up delay-2">
-    夜、やっと座れたソファ。<br>
-    でも、頭の中はまだ仕事のことを考えている。<br><br>
-    コーヒーを淹れようとしたけど、<br>
-    画面を見たまま時間が過ぎていた。<br><br>
-    <em>――いつから、こうなったんだろう。</em>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('record')">今日を記録</button>
+  <button class="tab" onclick="switchTab('graph')">30日のグラフ</button>
+</div>
+
+<!-- ══ 記録パネル ══ -->
+<div id="panel-record" class="panel active">
+  <div class="record-wrap">
+
+    <!-- Day selector -->
+    <div class="day-selector">
+      <span class="day-selector-label">記録する日</span>
+      <div class="day-nav">
+        <button class="day-nav-btn" onclick="changeDay(-1)">←</button>
+        <span class="day-current" id="dayDisplay">Day 1</span>
+        <button class="day-nav-btn" onclick="changeDay(1)">→</button>
+      </div>
+    </div>
+
+    <!-- 集中度 -->
+    <div class="field-group">
+      <span class="field-label">集中度（1〜10）</span>
+      <div class="slider-row">
+        <span class="slider-icon" id="focusIcon">🌱</span>
+        <input type="range" class="slider focus-slider" id="focusSlider"
+          min="1" max="10" value="5"
+          oninput="updateSlider('focus', this.value)">
+        <span class="slider-value" id="focusValue">5</span>
+      </div>
+    </div>
+
+    <!-- 気分 -->
+    <div class="field-group">
+      <span class="field-label">気分・感情（1〜10）</span>
+      <div class="slider-row">
+        <span class="slider-icon" id="moodIcon">😐</span>
+        <input type="range" class="slider mood-slider" id="moodSlider"
+          min="1" max="10" value="5"
+          oninput="updateSlider('mood', this.value)">
+        <span class="slider-value" id="moodValue">5</span>
+      </div>
+    </div>
+
+    <!-- コーヒーとの関係 -->
+    <div class="field-group">
+      <span class="field-label">今日のコーヒーとの関係</span>
+      <div class="coffee-options" id="coffeeOpts">
+        <div class="coffee-opt" onclick="selectCoffee(this, '味わえた')">ゆっくり<br>味わえた</div>
+        <div class="coffee-opt" onclick="selectCoffee(this, '流し込んだ')">流し込んで<br>しまった</div>
+        <div class="coffee-opt" onclick="selectCoffee(this, '気づきがあった')">気づきが<br>あった</div>
+        <div class="coffee-opt" onclick="selectCoffee(this, '飲めなかった')">今日は<br>飲めなかった</div>
+      </div>
+    </div>
+
+    <!-- 今日のひとこと -->
+    <div class="field-group">
+      <span class="field-label">今日のひとこと</span>
+      <textarea class="field-input" id="noteInput"
+        placeholder="どんな小さなことでも。"></textarea>
+    </div>
+
+    <button class="save-btn" onclick="saveDay()">この日を保存する ☕</button>
+    <div class="save-msg" id="saveMsg"></div>
+    <div class="insight-msg" id="insightMsg"></div>
+
   </div>
+</div>
 
-  <div class="divider fade-up delay-3"></div>
+<!-- ══ グラフパネル ══ -->
+<div id="panel-graph" class="panel">
+  <div class="graph-wrap">
 
-  <div style="height:48px;"></div>
+    <!-- 統計 -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-value" id="statDays">0</span>
+        <span class="stat-label">記録日数</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="statFocus">—</span>
+        <span class="stat-label">集中度平均</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="statMood">—</span>
+        <span class="stat-label">気分平均</span>
+      </div>
+    </div>
 
-  <h1 class="hero-title fade-up delay-3">
-    1杯のコーヒーから始まる、<br>小さなリセット
-  </h1>
-  <p class="hero-sub fade-up delay-4">心を整える30日間コーヒープログラム</p>
-</section>
+    <!-- グラフ -->
+    <div class="graph-section">
+      <span class="graph-title">集中度 × 気分の推移</span>
+      <div class="graph-container">
+        <canvas id="trackingChart" height="200"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--focus-color)"></div>
+          集中度
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--mood-color)"></div>
+          気分
+        </div>
+      </div>
+    </div>
 
+    <!-- 履歴 -->
+    <div class="history-section">
+      <span class="graph-title" style="display:block;margin-bottom:16px;">記録の一覧</span>
+      <div id="historyList"></div>
+      <p id="historyEmpty" style="text-align:center;font-size:13px;color:var(--text-muted);padding:32px 0;display:none;">
+        まだ記録がありません。<br>「今日を記録」タブから始めましょう。
+      </p>
+    </div>
 
-<!-- ── CHECKLIST ── -->
-<div class="checklist-section">
-  <div class="checklist-inner reveal">
-    <span class="section-label">あなたのことですか？</span>
-    <h2>こんな毎日、続いていませんか？</h2>
-    <ul class="checklist">
-      <li>休みの日も、頭のどこかがずっとONのまま</li>
-      <li>「疲れた」が口ぐせになっている</li>
-      <li>好きだったはずのことに、興味が持てない</li>
-      <li>コーヒーを飲んでいるのに、味を覚えていない</li>
-      <li>「ちゃんと休めた」と思えた日が、いつだったか思い出せない</li>
-      <li>自分のための時間が、どこかに消えてしまっている</li>
+  </div>
+</div>
+
+<div class="modal-overlay" id="guideModal">
+  <div class="modal">
+    <span class="modal-icon">☕</span>
+    <h2 class="modal-title">このシートの<br>使い方</h2>
+    <ul class="modal-list">
+      <li>1日1回でOK</li>
+      <li>正解はありません</li>
+      <li>感じたまま記録してください</li>
     </ul>
-    <p class="checklist-note">
-      チェックが2つ以上ついたなら、<br>
-      あなたが疲れているのは、意志が弱いからじゃない。
-      <strong>ただ、「立ち止まり方」を知らなかっただけです。</strong>
-    </p>
+    <p class="modal-note">大切なのは<br>「気づくこと」です</p>
+    <button class="modal-btn" onclick="closeGuide()">はじめる</button>
   </div>
 </div>
 
-
-<!-- ── PROBLEM ── -->
-<section class="reveal">
-  <span class="section-label">問題の本質</span>
-  <div class="prose">
-    <p>「もっと頑張れば、きっと楽になる」</p>
-    <p>そう思って、ずっと走ってきた。</p>
-    <p>でも本当は、頑張り方じゃなくて<br>
-    立ち止まり方を誰も教えてくれなかっただけかもしれない。</p>
-    <p>現代人の多くが「疲れているのに休めない」状態にあります。<br>
-    それは意志の問題でも、性格の問題でもなく、<br>
-    「心を落ち着かせる習慣」がないまま<br>
-    毎日をこなしてきた結果です。</p>
-    <p>必要なのは、大きな変化じゃない。<br>
-    1日5分、自分のための時間を「意図して」つくること。</p>
-    <p class="highlight">その入口に、コーヒーはなれると思っています。</p>
-  </div>
-</section>
-
-
-<!-- ── PIVOT ── -->
-<section style="background:var(--white); max-width:100%; padding:80px 24px;">
-  <div style="max-width:560px; margin:0 auto;" class="reveal">
-    <span class="section-label">1杯のコーヒー</span>
-    <div class="prose">
-      <p>コーヒーは、覚醒のための飲み物じゃない。</p>
-      <p>豆を量って、お湯を注いで、香りを感じる。<br>
-      その小さな動作のひとつひとつが、<br>「今ここにいる自分」に戻してくれる。</p>
-      <p>これは、コーヒーの飲み方を教えるプログラムじゃない。<br>
-      <span class="highlight">コーヒーを通して、自分との対話を取り戻す30日間です。</span></p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ── PROGRAM ── -->
-<section class="wide reveal">
-  <span class="section-label">コンテンツ紹介</span>
-  <h2>心を整える30日間コーヒープログラム</h2>
-  <div class="weeks">
-    <div class="week-card">
-      <span class="week-num">Week 1</span>
-      <div class="week-title">「気づく」</div>
-      <p class="week-desc">コーヒーを淹れながら、自分の状態に気づく練習。<br>「なんとなく」が「意図して」に変わり始めます。</p>
-    </div>
-    <div class="week-card">
-      <span class="week-num">Week 2</span>
-      <div class="week-title">「整える」</div>
-      <p class="week-desc">呼吸、時間、空間。小さな習慣を重ねていく週。<br>朝の1杯が、一日のリズムになっていきます。</p>
-    </div>
-    <div class="week-card">
-      <span class="week-num">Week 3</span>
-      <div class="week-title">「手放す」</div>
-      <p class="week-desc">手放してもいい「頑張り」に気づく週。<br>力を抜くことが、怠けじゃないと知っていく。</p>
-    </div>
-    <div class="week-card">
-      <span class="week-num">Week 4</span>
-      <div class="week-title">「続ける」</div>
-      <p class="week-desc">自分だけの「整え方」が、静かに根づく週。<br>30日後、コーヒーの味が少し変わって感じるかもしれません。</p>
-    </div>
-  </div>
-
-  <ul class="bonus-list reveal">
-    <li><a href="https://aoi19900405.github.io/aoi-site/aoi_checklist.html" target="_blank" style="color:inherit; text-decoration:none; display:flex; align-items:center; gap:8px;">付録① ── 30日チェックリスト <span style="font-family:'Noto Sans JP',sans-serif; font-size:10px; letter-spacing:0.15em; color:var(--brown-light);">開いてみる →</span></a></li>
-<li><a href="https://aoi19900405.github.io/aoi_coffee30program/aoi_tracking.html" target="_blank" style="color:inherit; text-decoration:none; display:flex; align-items:center; gap:8px;">付録② ── 集中・気分トラッキングシート <span style="font-family:'Noto Sans JP',sans-serif; font-size:10px; letter-spacing:0.15em; color:var(--brown-light);">開いてみる →</span></a></li>    
-    <li>付録③ ── 予算別おすすめ器具リスト</li>
-  </ul>
-</section>
-
-
-<!-- ── AUTHOR ── -->
-<div class="author-section">
-  <div class="author-inner reveal">
-    <span class="section-label">著者について</span>
-    <div class="author-icon">☕</div>
-    <h2>はじめまして、あおいです。</h2>
-    <div class="prose">
-      <p>コーヒーを毎日淹れるようになって、もう10年が経ちます。</p>
-      <p>でも最初から「丁寧な暮らし」をしていたわけじゃない。<br>
-      むしろ逆で、何かに追われるように毎日をこなしていた時期が<br>
-      ずっと続いていました。</p>
-      <p>転機は、ある朝のドリップでした。</p>
-      <p>お湯を細く注ぎながら、ふと気づいたんです。<br>
-      「あ、今、何も考えていない」と。</p>
-      <p>たった2分間。<br>
-      でもその静けさが、久しぶりで。<br>
-      少し、泣きそうになりました。</p>
-      <p>それから私は、コーヒーを「整える時間」として<br>
-      意識的に使うようになりました。</p>
-      <p>劇的に人生が変わったわけじゃない。<br>
-      ただ、朝が少しだけ好きになって、<br>
-      自分のことが、少しだけ丁寧に扱えるようになった。</p>
-      <p class="highlight">そんな小さな変化を、あなたにも届けられたら。<br>
-      そう思って、このプログラムをつくりました。</p>
-    </div>
-  </div>
-</div>
-
-
-<!-- ── REVIEWS ── -->
-<section class="reveal">
-  <span class="section-label">読者の声</span>
-  <h2>小さな変化が、<br>静かに届いています。</h2>
-  <div class="reviews">
-    <div class="review-card">
-      <p class="review-text">「コーヒーを飲んでいるのに、味を覚えていない」<br>
-      そう書いてあって、はっとしました。<br>
-      30日続けたら、朝が少し楽しみになっていました。</p>
-      <span class="review-author">30代・会社員</span>
-    </div>
-    <div class="review-card">
-      <p class="review-text">眠れない夜が続いていた時期に読みました。<br>
-      「頑張り方より立ち止まり方」という言葉が<br>
-      ずっと頭に残っています。</p>
-      <span class="review-author">20代・フリーランス</span>
-    </div>
-    <div class="review-card">
-      <p class="review-text">器具を買い替えたり、豆にこだわったりじゃなくて<br>
-      「今あるコーヒーで始めていい」と言ってもらえて<br>
-      それだけで少し楽になりました。</p>
-      <span class="review-author">40代・主婦</span>
-    </div>
-  </div>
-</section>
-
-
-<!-- ── PRICE ── -->
-<div class="price-section" id="purchase">
-  <div class="price-inner reveal">
-    <span class="section-label">ご購入</span>
-    <h2>心を整える<br>30日間コーヒープログラム</h2>
-    
-    <p class="price-note">
-      ずっと手元に残り、見返せるものを。<br>
-      30日間の「自分との対話」が始まります。<br><br>
-      むずかしい道具も、特別な豆も、いりません。<br>
-      今日の1杯から、そっと始められます。
-    </p>
-    <a href="https://note.com/haruma_aoi1226tk/n/n1c524f9ccf16" target="_blank" class="btn">読んでみる</a>
-    <span class="btn-sub">購入後すぐにお読みいただけます</span>
-    <a class="btn-preview" href="https://note.com/haruma_aoi1226tk/n/n423988147b74" target="_blank">まず無料記事で雰囲気を確かめる →</a>
-  </div>
-</div>
-
-
-<!-- ── FAQ ── -->
-<section class="reveal">
-  <span class="section-label">よくある質問</span>
-  <h2>読む前に、<br>気になることを。</h2>
-
-  <div class="faq-item">
-    <div class="faq-q">コーヒーが得意じゃなくても読めますか？</div>
-    <p class="faq-a">はい。このプログラムはコーヒーの飲み方や淹れ方を教えるものではありません。カフェインが苦手な方は、ハーブティーや白湯に置き換えても同じように使えます。大切なのは「意図して淹れる」という行為です。</p>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">忙しくて毎日続ける自信がありません。</div>
-    <p class="faq-a">毎日完璧にやらなくていいです。飛ばした日があっても、また次の日から静かに再開できるように設計しています。「続けられた自分」より「また始めた自分」を褒めてあげてください。</p>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">コーヒー器具は何か必要ですか？</div>
-    <p class="faq-a">今あるもので始められます。インスタントでも、コンビニコーヒーでも。付録の器具リストは、もし興味が出てきたときの参考として用意しているものです。</p>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">読むのにどれくらい時間がかかりますか？</div>
-    <p class="faq-a">全体で1〜2時間ほどです。ただ、一気に読むより週ごとに少しずつ開いてほしいと思っています。手元に置いておく「お守り」のような使い方がいちばん合っているかもしれません。</p>
-  </div>
-</section>
-
-
-<!-- ── CLOSING ── -->
-<div class="closing-section">
-  <div class="closing-inner reveal">
-    <div class="closing-poem">
-      30日後の朝を、少し想像してみてください。<br><br>
-      目覚ましが鳴る。<br>
-      体を起こして、キッチンへ向かう。<br><br>
-      コーヒーを淹れながら、<br>
-      今日の自分の状態に、そっと気づく。<br><br>
-      <span class="em-line">「あ、今日は少し重いな」</span><br>
-      <span class="em-line">「なんだか、悪くない朝だ」</span><br><br>
-      それだけでいい。<br>
-      それが、整った朝です。<br><br>
-      大きく変わらなくていい。<br>
-      ただ、自分のことを<br>
-      少し丁寧に扱えるようになれたら。
-    </div>
-    <hr class="divider-h" style="margin-bottom:48px;">
-    <p style="font-family:'Shippori Mincho',serif; font-size:17px; color:var(--brown-dark); margin-bottom:40px;">
-      その最初の1杯を、一緒に淹れませんか。
-    </p>
-    <a href="https://note.com/haruma_aoi1226tk/n/n1c524f9ccf16" target="_blank" class="btn">読んでみる</a>
-  </div>
-</div>
-
-
-<footer>
-  © あおい｜@aoi_coffee_haruma1226tk
-</footer>
-
-
-<!-- ── FLOATING CTA ── -->
-<div class="floating-cta" id="floatingCta">
-  <a href="https://note.com/haruma_aoi1226tk/n/n1c524f9ccf16" target="_blank" class="floating-btn">
-    読んでみる
-  </a>
-</div>
-
+<footer>© あおい｜心を整える30日間コーヒープログラム</footer>
+<div class="toast" id="toast">保存しました ☕</div>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(el => observer.observe(el));
+// ── DATA ──
+function loadData() {
+  try { return JSON.parse(localStorage.getItem('aoi_tracking') || '{}'); } catch { return {}; }
+}
+function saveData(d) { localStorage.setItem('aoi_tracking', JSON.stringify(d)); }
 
-  // Floating CTA
-  const floatingCta = document.getElementById('floatingCta');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > window.innerHeight * 0.8) {
-      floatingCta.classList.add('show');
-    } else {
-      floatingCta.classList.remove('show');
-    }
+let data = loadData();
+let currentDay = 1;
+let selectedCoffee = '';
+
+// ── TABS ──
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'graph') renderGraph();
+}
+
+// ── DAY NAV ──
+function changeDay(dir) {
+  currentDay = Math.max(1, Math.min(30, currentDay + dir));
+  document.getElementById('dayDisplay').textContent = 'Day ' + currentDay;
+  loadDayData();
+}
+
+function loadDayData() {
+  const d = data[currentDay] || {};
+  document.getElementById('focusSlider').value = d.focus || 5;
+  document.getElementById('moodSlider').value = d.mood || 5;
+  document.getElementById('noteInput').value = d.note || '';
+  updateSlider('focus', d.focus || 5);
+  updateSlider('mood', d.mood || 5);
+  selectedCoffee = d.coffee || '';
+  document.querySelectorAll('.coffee-opt').forEach(el => {
+    el.classList.toggle('selected', el.getAttribute('data-val') === selectedCoffee ||
+      (selectedCoffee && el.textContent.replace(/\s/g,'').includes(selectedCoffee.replace(/\s/g,''))));
   });
-</script>
+  document.getElementById('saveMsg').textContent = '';
+}
 
+// ── SLIDERS ──
+const focusIcons = ['','🌱','🌿','🍃','💧','⚡','🔥','✨','💫','🌟','🏆'];
+const moodIcons =  ['','😔','😞','😐','🙂','😊','😄','🌸','💛','🌈','✨'];
+
+function updateSlider(type, val) {
+  val = parseInt(val);
+  if (type === 'focus') {
+    document.getElementById('focusValue').textContent = val;
+    document.getElementById('focusIcon').textContent = focusIcons[val] || '🌱';
+    const pct = ((val - 1) / 9) * 100;
+    document.getElementById('focusSlider').style.background =
+      `linear-gradient(to right, var(--focus-color) ${pct}%, var(--cream-deep) ${pct}%)`;
+  } else {
+    document.getElementById('moodValue').textContent = val;
+    document.getElementById('moodIcon').textContent = moodIcons[val] || '😐';
+    const pct = ((val - 1) / 9) * 100;
+    document.getElementById('moodSlider').style.background =
+      `linear-gradient(to right, var(--mood-color) ${pct}%, var(--cream-deep) ${pct}%)`;
+  }
+}
+
+function selectCoffee(el, val) {
+  document.querySelectorAll('.coffee-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCoffee = val;
+}
+
+function getInsight(focus, mood, coffee) {
+  const avg = (focus + mood) / 2;
+  const coffeeMap = {
+    '味わえた': 'コーヒーをゆっくり味わえた日は、自分を丁寧に扱えている証拠です。',
+    '流し込んだ': '忙しかったのかもしれません。明日の1杯は、少しだけゆっくり。',
+    '気づきがあった': 'その気づき、大切にしてください。小さな発見が積み重なります。',
+    '飲めなかった': 'それでも記録したこと、それ自体が今日の一歩です。',
+  };
+  const coffeeNote = coffeeMap[coffee] || '';
+
+  let base = '';
+  if (avg >= 8) base = '今日はとても状態がいい日でした。この感覚、覚えておいてください。';
+  else if (avg >= 6) base = '悪くない一日でした。少しずつ、整ってきています。';
+  else if (avg >= 4) base = '普通に見えて、実は踏ん張っていた日かもしれません。';
+  else base = '今日は少し重かったかもしれません。それを感じられたこと自体、気づきです。';
+
+  return `${base}${coffeeNote ? '\n\n' + coffeeNote : ''}`;
+}
+
+// ── SAVE ──
+function saveDay() {
+  const focus = parseInt(document.getElementById('focusSlider').value);
+  const mood = parseInt(document.getElementById('moodSlider').value);
+  data[currentDay] = {
+    focus,
+    mood,
+    coffee: selectedCoffee,
+    note: document.getElementById('noteInput').value,
+  };
+  saveData(data);
+  document.getElementById('saveMsg').textContent = '✦ 保存しました';
+  setTimeout(() => document.getElementById('saveMsg').textContent = '', 2000);
+
+  // 気づき誘導
+  const insight = getInsight(focus, mood, selectedCoffee);
+  const insightEl = document.getElementById('insightMsg');
+  insightEl.textContent = insight;
+  insightEl.classList.remove('show');
+  setTimeout(() => insightEl.classList.add('show'), 300);
+
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ── GRAPH ──
+function renderGraph() {
+  updateStats();
+  renderHistory();
+  drawChart();
+}
+
+function updateStats() {
+  const days = Object.values(data).filter(d => d.focus);
+  document.getElementById('statDays').textContent = days.length;
+  if (days.length) {
+    const avgF = (days.reduce((a, d) => a + d.focus, 0) / days.length).toFixed(1);
+    const avgM = (days.reduce((a, d) => a + d.mood, 0) / days.length).toFixed(1);
+    document.getElementById('statFocus').textContent = avgF;
+    document.getElementById('statMood').textContent = avgM;
+  } else {
+    document.getElementById('statFocus').textContent = '—';
+    document.getElementById('statMood').textContent = '—';
+  }
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('historyEmpty');
+  const entries = Object.entries(data).filter(([,d]) => d.focus).sort(([a],[b]) => b-a);
+
+  if (!entries.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  list.innerHTML = entries.map(([day, d]) => `
+    <div class="history-item">
+      <span class="history-day">Day ${day}</span>
+      <div class="history-bar-wrap">
+        <div class="history-bar">
+          <div class="history-bar-fill focus" style="width:${d.focus*10}%"></div>
+        </div>
+        <span class="history-num">${d.focus}</span>
+      </div>
+      <div class="history-bar-wrap">
+        <div class="history-bar">
+          <div class="history-bar-fill mood" style="width:${d.mood*10}%"></div>
+        </div>
+        <span class="history-num">${d.mood}</span>
+      </div>
+      <span class="history-note">${d.note || d.coffee || '—'}</span>
+    </div>
+  `).join('');
+}
+
+function drawChart() {
+  const canvas = document.getElementById('trackingChart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth - 32;
+  const H = 200;
+
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = { top: 16, right: 16, bottom: 32, left: 32 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+
+  // Grid lines
+  ctx.strokeStyle = '#ede7dc';
+  ctx.lineWidth = 1;
+  [2,4,6,8,10].forEach(v => {
+    const y = pad.top + chartH - ((v-1)/9) * chartH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(pad.left + chartW, y);
+    ctx.stroke();
+    ctx.fillStyle = '#9c8070';
+    ctx.font = `${10 * dpr / dpr}px 'Noto Sans JP'`;
+    ctx.textAlign = 'right';
+    ctx.fillText(v, pad.left - 6, y + 4);
+  });
+
+  // Day labels
+  ctx.fillStyle = '#9c8070';
+  ctx.font = `10px 'Noto Sans JP'`;
+  ctx.textAlign = 'center';
+  [1,5,10,15,20,25,30].forEach(d => {
+    const x = pad.left + ((d-1)/29) * chartW;
+    ctx.fillText(d, x, H - 8);
+  });
+
+  const days = Array.from({length:30}, (_,i) => i+1);
+  const focusVals = days.map(d => data[d]?.focus || null);
+  const moodVals  = days.map(d => data[d]?.mood  || null);
+
+  function drawLine(vals, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    let started = false;
+    vals.forEach((v, i) => {
+      if (v === null) { started = false; return; }
+      const x = pad.left + (i/29) * chartW;
+      const y = pad.top + chartH - ((v-1)/9) * chartH;
+      if (!started) { ctx.moveTo(x, y); started = true; }
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Dots
+    vals.forEach((v, i) => {
+      if (v === null) return;
+      const x = pad.left + (i/29) * chartW;
+      const y = pad.top + chartH - ((v-1)/9) * chartH;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.fillStyle = '#fdfaf7';
+      ctx.beginPath();
+      ctx.arc(x, y, 2, 0, Math.PI*2);
+      ctx.fill();
+    });
+  }
+
+  drawLine(focusVals, '#7a9e8a');
+  drawLine(moodVals, '#c4a882');
+}
+
+// ── GUIDE MODAL ──
+function closeGuide() {
+  document.getElementById('guideModal').style.display = 'none';
+  localStorage.setItem('aoi_guide_seen', '1');
+}
+
+if (!localStorage.getItem('aoi_guide_seen')) {
+  document.getElementById('guideModal').style.display = 'flex';
+} else {
+  document.getElementById('guideModal').style.display = 'none';
+}
+
+// ── INIT ──
+loadDayData();
+window.addEventListener('resize', () => {
+  if (document.getElementById('panel-graph').classList.contains('active')) drawChart();
+});
+</script>
 </body>
 </html>
